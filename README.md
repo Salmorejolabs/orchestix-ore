@@ -1,94 +1,208 @@
-ORCHESTIXX — Reference Engine (ORE) v0.1
-“Este repositorio implementa el primer motor constitucional para sistemas multiagente.
-No promete ser perfecto; promete ser responsable.”
+ORCHESTIXX ORE v0.1
+(versión lista para pegar en GitHub)
 
-📘 Descripción
-ORCHESTIXX ORE v0.1 es el Reference Engine del OCAP — Constitutional Agent Protocol,
-un kernel diseñado para que sistemas multiagente operen bajo:
+🏛️ ORCHESTIXX — ORE v0.1
+Motor Constitucional para Agentes Cognitivos
 
-Auditoría continua
-Prudencia computacional
-Ejecución controlada
-Memoria estructurada
-Gobernanza constitucional
-Contexto fractal
+ORE (Operational Reasoning Engine) es el motor base de ORCHESTIXX:
+un sistema que ejecuta ciclos cognitivos gobernados por una constitución explícita, con auditoría, prudencia computacional, memoria estructurada y ramas fractales del pensamiento.
 
-Este repositorio contiene la Fase 1 — Núcleo de Hierro:
-Auditor, Scheduler, ContextSnapshot, Post-Mortem y Arconte.
+Este repositorio contiene la versión 0.1, una implementación mínima pero completamente funcional del motor.
+
+📌 Visión General
+ORE v0.1 demuestra que un agente cognitivo puede:
+
+ejecutar ciclos razonados
+
+bajo una constitución explícita
+
+con auditoría continua
+
+con prudencia computacional
+
+con memoria trazable
+
+con separación de poderes
+
+con ramas fractales del pensamiento
+
+Es un motor constitucional, no un agente final.
+Es la base sobre la que se construyen agentes gobernados por reglas claras, auditables y reproducibles.
 
 🧩 Arquitectura del Sistema
-/auditor
-Módulo de vigilancia en streaming.
-Incluye:
-signal_tap.py — Captura de ventanas de tokens
-rule_validator.py — Validación determinista y semántica
-restriction_dictionary.py — Diccionario de restricciones constitucionales
-kill_switch.py — Interrupción inmediata del flujo
+ORE está dividido en órganos, inspirados en una separación de poderes:
 
-/scheduler
-Orquestador de ramas fractales y economía cognitiva.
-Gestiona presupuestos de tokens, ramificación (fork) y continuidad del mandato.
+1. Runtime
+Define el estado cognitivo del ciclo:
 
-/constitution
-Implementación del núcleo OCAP y los Artículos I–VIII.
+ContextSnapshot
 
-/prudence
-Consejo de Prudencia para resolución de conflictos constitucionales.
+State
 
-/legislative
-Merge-Agent y Policy Engine.
+ActionRequest
 
-/memory
-postmortem.py — Registro de decisiones
-timeline_logger.py — Jurisprudencia temporal
-storage_backend.py — Backend abstracto
+2. Scheduler
+Orquesta el ciclo:
 
-/runtime
-context_snapshot.py — ADN del pensamiento fractal
-action_request.py — Solicitudes de acción
-state_models.py — Estados internos del ciclo
+asigna presupuesto
 
-🚀 Inicio rápido (versión sin bloque de código)
-from ore.runtime.context_snapshot import ContextSnapshot
-from ore.scheduler.scheduler import Scheduler
+ejecuta ramas
 
-context = ContextSnapshot(
-    cycle_id="GENESIS-0001",
-    branch_id="ROOT",
-    parent_branch_id=None,
-    root_goal="Procesar datos médicos",
-    current_subgoal="Generar resumen clínico",
-    constitution_version="OCAP-0.2",
-    active_constraints=[3],
-    token_budget_allocated=500,
-    token_spent_so_far=0,
-    local_jurisprudence=[]
-)
+controla forks
 
-scheduler = Scheduler(context)
-scheduler.run()
+3. Constitución (OCAP)
+Artículos I–VIII + núcleo OCAP:
 
-🧪 Estado del Proyecto
-Fase actual: ORE v0.1 — Núcleo de Hierro
-Incluye:
-Auditor Proto-Operativo
-Kill-Switch Alfa
-RuleValidator determinista + semántico
-Diccionario de Restricciones
-ContextSnapshot dinámico
-Post-Mortem Alfa
-Arconte (puente de ejecución controlada)
+principios legales
 
-📜 Licencia
-Este proyecto está licenciado bajo Apache License 2.0.
-Consulta el archivo LICENSE para más detalles.
+transparencia
 
-🏛️ Declaración Fundacional
-ORCHESTIXX no es un framework.
-No es una librería.
-No es un experimento.
+prudencia
 
-Es un kernel constitucional para inteligencias.
-Un estándar diseñado para que los agentes actúen bajo ley, prudencia y trazabilidad.
+coherencia
 
-Larga vida a la República Independiente de ORCHESTIXX.
+gobernanza fractal
+
+4. Auditor
+Supervisa el flujo:
+
+inspección de snapshots
+
+kill switch
+
+validación de reglas
+
+5. Prudencia
+Consejo de prudencia:
+
+detecta conflictos
+
+resuelve tensiones
+
+6. Legislativo
+Traduce constitución → políticas:
+
+PolicyEngine
+
+MergeAgent
+
+7. Memoria
+Registra y conserva:
+
+timeline
+
+postmortem
+
+almacenamiento
+
+8. Pruebas y Ejemplos
+test mínimo de arranque
+
+ejemplo de ejecución manual
+
+🧬 Flujo Cognitivo Básico
+Se crea un ContextSnapshot
+
+El Scheduler ejecuta un ciclo
+
+El Auditor inspecciona
+
+El OCAPCore valida artículos
+
+El PrudenceEngine evalúa conflictos
+
+El PolicyEngine aplica políticas
+
+El MergeAgent fusiona decisiones
+
+La Memoria registra eventos
+
+Se genera un Postmortem
+
+Este flujo es modular, extensible y fractal.
+
+🚀 Cómo ejecutar el ejemplo
+Código
+python ejemplos/ejemplo_arranque.py
+Esto ejecuta un ciclo básico del Scheduler con un ContextSnapshot mínimo.
+
+🧪 Cómo ejecutar las pruebas
+Código
+python -m unittest pruebas/test_arranque.py
+🏗️ Estructura del Proyecto
+Código
+orchestix-ore/
+│
+├── auditor/
+├── constitución/
+│   ├── articulos/
+│   └── ocap_core.py
+├── legislativo/
+├── memoria/
+├── prudencia/
+├── runtime/
+├── planificador/
+├── ejemplos/
+├── pruebas/
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+📜 Constitución (Artículos I–VIII)
+Los artículos definen los principios fundamentales:
+
+Legalidad
+
+Transparencia
+
+Prudencia Computacional
+
+No Daño
+
+Coherencia Interna
+
+Integridad del Ciclo
+
+Responsabilidad
+
+Gobernanza Fractal
+
+El núcleo OCAP los carga, ordena y valida.
+
+🛠️ Roadmap
+v0.2 — Lógica real
+Activación real de artículos
+
+Conflictos constitucionales
+
+Jurisprudencia local
+
+Economía cognitiva real
+
+Forks fractales funcionales
+
+v0.3 — Integración con agentes reales
+Conexión con modelos externos
+
+Auditoría en tiempo real
+
+Gobernanza dinámica
+
+v1.0 — ORCHESTIXX completo
+motor constitucional
+
+interfaz CLI
+
+simulaciones fractales
+
+visualización del ciclo
+
+gobernanza multi-agente
+
+👤 Autor
+Sergio de Lucas González (SDL)  
+Fundador de SalmorejoLabs
+Arquitecto de ORCHESTIXX
+
+📄 Licencia
+Este proyecto está bajo licencia Apache 2.0.
