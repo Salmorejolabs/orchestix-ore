@@ -1,51 +1,43 @@
-import type { CcsBlueprint } from '../ccs/types';
-import type { AciReasoning } from './types';
+import { AciBlueprint, AciReasoning } from "./types";
 
-// L3 — Razonamiento
-// Detección de ciclos mediante Kahn's algorithm (topological sort BFS).
-export function reasonAboutBlueprint(blueprint: CcsBlueprint): AciReasoning {
-  const taskIds = blueprint.tasks.map((t) => t.id);
-
-  // Construir grafo de adyacencia e in-degree
+export function reasonAboutBlueprint(blueprint: AciBlueprint): AciReasoning {
+  // Construimos un grafo de dependencias a partir de las tareas
+  const graph = new Map<string, string[]>();
   const inDegree = new Map<string, number>();
-  const adj = new Map<string, string[]>();
 
-  for (const id of taskIds) {
-    inDegree.set(id, 0);
-    adj.set(id, []);
+  for (const task of blueprint.tasks) {
+    graph.set(task.id, task.dependsOn || []);
+    inDegree.set(task.id, task.dependsOn?.length || 0);
   }
 
-  for (const dep of blueprint.dependencies) {
-    // dep.from debe ejecutarse antes que dep.to
-    adj.get(dep.from)?.push(dep.to);
-    inDegree.set(dep.to, (inDegree.get(dep.to) ?? 0) + 1);
-  }
+  // Kahn’s algorithm
+  const queue = [...inDegree.entries()]
+    .filter(([_, deg]) => deg === 0)
+    .map(([id]) => id);
 
-  // Kahn: inicializar cola con nodos de in-degree 0
-  const queue: string[] = [];
-  for (const [id, degree] of inDegree) {
-    if (degree === 0) queue.push(id);
-  }
-
-  const suggestedOrder: string[] = [];
+  const order: string[] = [];
 
   while (queue.length > 0) {
-    const node = queue.shift()!;
-    suggestedOrder.push(node);
-    for (const neighbor of (adj.get(node) ?? [])) {
-      const newDegree = (inDegree.get(neighbor) ?? 0) - 1;
-      inDegree.set(neighbor, newDegree);
-      if (newDegree === 0) queue.push(neighbor);
+    const current = queue.shift()!;
+    order.push(current);
+
+    for (const [taskId, deps] of graph.entries()) {
+      if (deps.includes(current)) {
+        const newDeg = inDegree.get(taskId)! - 1;
+        inDegree.set(taskId, newDeg);
+        if (newDeg === 0) queue.push(taskId);
+      }
     }
   }
 
-  // Si no se procesaron todos los nodos, hay un ciclo
-  const hasCycle = suggestedOrder.length !== taskIds.length;
+  const hasCycle = order.length !== blueprint.tasks.length;
 
   return {
     viable: !hasCycle,
-    viabilityScore: hasCycle ? 0 : 0.9,
-    suggestedOrder: hasCycle ? taskIds : suggestedOrder,
-    concerns: hasCycle ? ['Ciclo detectado en dependencias'] : [],
+    order,
+    constitutional: hasCycle ? "CYCLE_DETECTED" : "OK",
+    reasoning: hasCycle
+      ? "Se detectó un ciclo en las dependencias del blueprint."
+      : "El blueprint es válido y las tareas pueden ejecutarse en este orden."
   };
 }
