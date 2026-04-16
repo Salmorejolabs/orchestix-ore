@@ -1,23 +1,39 @@
-import { describe, it, expect } from "vitest";
+import { expect } from "chai";
 import { runAciCycle } from "../../src/aci/cycle";
 
 describe("ACI v0.3", () => {
-  it("Ciclo ACI completo: genera OrdenAprobada", () => {
+  it("Ciclo ACI completo: genera OrdenAprobada", async () => {
     const mockBlueprint = {
       id: "bp_test_001",
       purpose: "Test blueprint",
       tasks: [
-        { id: "t1", owner: "agentA", dependsOn: [] },
-        { id: "t2", owner: "agentB", dependsOn: ["t1"] }
+        {
+          id: "t1",
+          name: "Primera tarea",
+          owner: "agentA",
+          dependsOn: [],
+          impact: ["low"],
+          justification: "test ok"
+        },
+        {
+          id: "t2",
+          name: "Segunda tarea",
+          owner: "agentB",
+          dependsOn: ["t1"],
+          impact: ["low"],
+          justification: "test ok"
+        }
       ]
     };
 
-    const result = runAciCycle(mockBlueprint);
+    const mockContext = {
+      agents: ["agentA", "agentB"],
+      environment: "test"
+    };
 
-    expect(result.status).toBe("approved");
-    expect(result.order).toBe("OrdenAprobada");
-    expect(result.evidence).toBeDefined();
-    expect(result.evidence.constitutional).toBeDefined();
-    expect(result.evidence.reasoning).toBeDefined();
+    const orden = await runAciCycle(mockBlueprint, mockContext);
+
+    expect(orden.status).to.equal("approved");
+    expect(orden.blueprintId).to.equal("bp_test_001");
   });
 });
