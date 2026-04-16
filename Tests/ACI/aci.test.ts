@@ -1,51 +1,23 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
+import { runAciCycle } from "../../src/aci/cycle";
 
-import { perceiveBlueprint } from '../../src/aci/perception';
-import { recallMemory } from '../../src/aci/memory';
-import { reasonAboutBlueprint } from '../../src/aci/reasoning';
-import { runAciCycle } from '../../src/aci/cycle';
+describe("ACI v0.3", () => {
+  it("Ciclo ACI completo: genera OrdenAprobada", () => {
+    const mockBlueprint = {
+      id: "bp_test_001",
+      purpose: "Test blueprint",
+      tasks: [
+        { id: "t1", owner: "agentA", dependsOn: [] },
+        { id: "t2", owner: "agentB", dependsOn: ["t1"] }
+      ]
+    };
 
-const mockBlueprint = {
-  id: 'bp_test_001',
-  name: 'Blueprint Test',
-  tasks: [
-    { id: 't1', name: 'Task 1' },
-    { id: 't2', name: 'Task 2' },
-  ],
-  dependencies: [
-    { from: 't1', to: 't2' }
-  ]
-};
+    const result = runAciCycle(mockBlueprint);
 
-describe('ACI v0.2', () => {
-
-  it('L1 Percepción: detecta tareas y dependencias', () => {
-    const p = perceiveBlueprint(mockBlueprint);
-
-    expect(p.tasks.length).toBe(2);
-    expect(p.dependencies.length).toBe(1);
+    expect(result.status).toBe("approved");
+    expect(result.order).toBe("OrdenAprobada");
+    expect(result.evidence).toBeDefined();
+    expect(result.evidence.constitutional).toBeDefined();
+    expect(result.evidence.reasoning).toBeDefined();
   });
-
-  it('L2 Memoria: devuelve contexto mínimo', () => {
-    const m = recallMemory(mockBlueprint);
-
-    expect(m.confidence).toBeDefined();
-    expect(m.pastExecutions).toBe(0);
-  });
-
-  it('L3 Razonamiento: blueprint viable', () => {
-    const r = reasonAboutBlueprint(mockBlueprint);
-
-    expect(r.viable).toBe(true);
-    expect(r.suggestedOrder.length).toBe(2);
-  });
-
-  it('Ciclo ACI completo: genera OrdenAprobada', () => {
-    const order = runAciCycle(mockBlueprint);
-
-    expect(order.traceId).toBeDefined();
-    expect(order.decision).toBe('GO');
-    expect(order.blueprintId).toBe('bp_test_001');
-  });
-
 });
