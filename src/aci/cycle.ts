@@ -3,7 +3,7 @@ return {
   order: "OrdenAprobada",
   blueprintId: blueprint.id,
   evidence: {
-    constitutional: reasoning.constitutional,
-    reasoning: reasoning.reasoning
+    constitutional: validations,
+    reasoning
   }
 };
