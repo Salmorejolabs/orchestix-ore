@@ -9,7 +9,11 @@ export type ValidationResult = {
 
 // --- P1: Propósito ---
 function validatePurpose(blueprint: CcsBlueprint): ValidationResult {
-  const ok = Boolean(blueprint.name && blueprint.name.trim().length >= 3);
+  // Aceptamos tanto blueprint.name como blueprint.purpose
+  const rawPurpose = blueprint.name ?? blueprint.purpose ?? "";
+  const purpose = rawPurpose.toString().trim();
+
+  const ok = purpose.length >= 3;
 
   return {
     ok,
@@ -22,7 +26,7 @@ function validatePurpose(blueprint: CcsBlueprint): ValidationResult {
 
 // --- P2: Coherencia ---
 function validateCoherence(blueprint: CcsBlueprint): ValidationResult {
-  const taskNames = blueprint.tasks.map(t => t.name.toLowerCase());
+  const taskNames = blueprint.tasks.map(t => (t.name ?? "").toLowerCase());
   const hasDuplicates = new Set(taskNames).size !== taskNames.length;
 
   return {
@@ -72,7 +76,9 @@ function validateNoCycles(blueprint: CcsBlueprint): ValidationResult {
 // --- P4: Legalidad ---
 function validateLegality(blueprint: CcsBlueprint): ValidationResult {
   const illegal = blueprint.tasks.some(t =>
-    ["hack", "bypass", "override"].some(bad => t.name.toLowerCase().includes(bad))
+    ["hack", "bypass", "override"].some(bad =>
+      (t.name ?? "").toLowerCase().includes(bad)
+    )
   );
 
   return {
@@ -87,7 +93,9 @@ function validateLegality(blueprint: CcsBlueprint): ValidationResult {
 // --- P5: Riesgo ---
 function validateRisk(blueprint: CcsBlueprint): ValidationResult {
   const risky = blueprint.tasks.some(t =>
-    ["delete", "remove", "shutdown"].some(bad => t.name.toLowerCase().includes(bad))
+    ["delete", "remove", "shutdown"].some(bad =>
+      (t.name ?? "").toLowerCase().includes(bad)
+    )
   );
 
   return {
@@ -101,7 +109,9 @@ function validateRisk(blueprint: CcsBlueprint): ValidationResult {
 
 // --- P6: Impacto ---
 function validateImpact(blueprint: CcsBlueprint): ValidationResult {
-  const impactMissing = blueprint.tasks.some(t => !t.impact || t.impact.length === 0);
+  const impactMissing = blueprint.tasks.some(
+    t => !t.impact || t.impact.length === 0
+  );
 
   return {
     ok: !impactMissing,
