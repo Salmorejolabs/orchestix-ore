@@ -1,6 +1,6 @@
 import { createContext } from "../ccs/context";
 import { validateBlueprint } from "../ccs/validators";
-import { reasonAboutBlueprint } from "./razonamiento";
+import { reasonAboutBlueprint } from "./reasoning";
 import type { CcsBlueprint } from "../ccs/types";
 
 const context = createContext();
