@@ -9,10 +9,8 @@ export type ValidationResult = {
 
 // --- P1: Propósito ---
 function validatePurpose(blueprint: CcsBlueprint): ValidationResult {
-  // Aceptamos tanto blueprint.name como blueprint.purpose
   const rawPurpose = blueprint.name ?? blueprint.purpose ?? "";
   const purpose = rawPurpose.toString().trim();
-
   const ok = purpose.length >= 3;
 
   return {
@@ -40,10 +38,17 @@ function validateCoherence(blueprint: CcsBlueprint): ValidationResult {
 
 // --- P3: No circularidad ---
 function validateNoCycles(blueprint: CcsBlueprint): ValidationResult {
+  // Aceptamos dependencias en blueprint.dependencies o en t.dependsOn
+  const deps =
+    blueprint.dependencies ??
+    blueprint.tasks.flatMap(t =>
+      (t.dependsOn ?? []).map(d => ({ from: d, to: t.id }))
+    );
+
   const indegree: Record<string, number> = {};
   blueprint.tasks.forEach(t => (indegree[t.id] = 0));
 
-  blueprint.dependencies.forEach(dep => {
+  deps.forEach(dep => {
     indegree[dep.to] = (indegree[dep.to] ?? 0) + 1;
   });
 
@@ -54,7 +59,7 @@ function validateNoCycles(blueprint: CcsBlueprint): ValidationResult {
     const node = queue.shift()!;
     visited++;
 
-    blueprint.dependencies
+    deps
       .filter(dep => dep.from === node)
       .forEach(dep => {
         indegree[dep.to]--;
@@ -164,3 +169,4 @@ export function validateBlueprint(
     validateResponsibility(blueprint)
   ];
 }
+
