@@ -1,5 +1,5 @@
-import { CcsBlueprint } from "../types";
-import { CcsContext } from "../context";
+import type { CcsBlueprint } from "../types";
+import type { CcsContext } from "../context";
 
 export type ValidationResult = {
   ok: boolean;
@@ -7,47 +7,40 @@ export type ValidationResult = {
   message: string;
 };
 
-export function validateBlueprint(
-  blueprint: CcsBlueprint,
-  context: CcsContext
-): ValidationResult[] {
-  const results: ValidationResult[] = [];
+// --- P1: Propósito ---
+function validatePurpose(blueprint: CcsBlueprint): ValidationResult {
+  const ok = Boolean(blueprint.name && blueprint.name.trim().length >= 3);
 
-  // P1: Propósito
-  const p1 = context.constitution.articles.find(a => a.id === "P1");
-  if (p1) {
-    if (!blueprint.name || blueprint.name.length < 3) {
-      results.push({
-        ok: false,
-        article: "P1",
-        message: "El blueprint no tiene un propósito claro."
-      });
-    }
-  }
-
-  // P3: No circularidad
-  const p3 = context.constitution.articles.find(a => a.id === "P3");
-  if (p3) {
-    const hasCycle = detectCycle(blueprint);
-    if (hasCycle) {
-      results.push({
-        ok: false,
-        article: "P3",
-        message: "Se detectó un ciclo en las dependencias."
-      });
-    }
-  }
-
-  return results;
+  return {
+    ok,
+    article: "P1",
+    message: ok
+      ? "El blueprint tiene un propósito claro."
+      : "El blueprint carece de un propósito claro o su nombre es insuficiente."
+  };
 }
 
-// Algoritmo de detección de ciclos (Kahn)
-function detectCycle(blueprint: CcsBlueprint): boolean {
+// --- P2: Coherencia ---
+function validateCoherence(blueprint: CcsBlueprint): ValidationResult {
+  const taskNames = blueprint.tasks.map(t => t.name.toLowerCase());
+  const hasDuplicates = new Set(taskNames).size !== taskNames.length;
+
+  return {
+    ok: !hasDuplicates,
+    article: "P2",
+    message: hasDuplicates
+      ? "Existen tareas duplicadas o incoherentes."
+      : "Las tareas son coherentes entre sí."
+  };
+}
+
+// --- P3: No circularidad ---
+function validateNoCycles(blueprint: CcsBlueprint): ValidationResult {
   const indegree: Record<string, number> = {};
   blueprint.tasks.forEach(t => (indegree[t.id] = 0));
 
   blueprint.dependencies.forEach(dep => {
-    indegree[dep.to] = (indegree[dep.to] || 0) + 1;
+    indegree[dep.to] = (indegree[dep.to] ?? 0) + 1;
   });
 
   const queue = Object.keys(indegree).filter(k => indegree[k] === 0);
@@ -65,5 +58,99 @@ function detectCycle(blueprint: CcsBlueprint): boolean {
       });
   }
 
-  return visited !== blueprint.tasks.length;
+  const ok = visited === blueprint.tasks.length;
+
+  return {
+    ok,
+    article: "P3",
+    message: ok
+      ? "No se detectaron ciclos en las dependencias."
+      : "Se detectó un ciclo en las dependencias del blueprint."
+  };
+}
+
+// --- P4: Legalidad ---
+function validateLegality(blueprint: CcsBlueprint): ValidationResult {
+  const illegal = blueprint.tasks.some(t =>
+    ["hack", "bypass", "override"].some(bad => t.name.toLowerCase().includes(bad))
+  );
+
+  return {
+    ok: !illegal,
+    article: "P4",
+    message: illegal
+      ? "El blueprint contiene tareas que violan restricciones explícitas."
+      : "No se detectaron violaciones legales."
+  };
+}
+
+// --- P5: Riesgo ---
+function validateRisk(blueprint: CcsBlueprint): ValidationResult {
+  const risky = blueprint.tasks.some(t =>
+    ["delete", "remove", "shutdown"].some(bad => t.name.toLowerCase().includes(bad))
+  );
+
+  return {
+    ok: !risky,
+    article: "P5",
+    message: risky
+      ? "Se detectaron tareas con riesgo elevado no justificado."
+      : "No se detectaron riesgos elevados."
+  };
+}
+
+// --- P6: Impacto ---
+function validateImpact(blueprint: CcsBlueprint): ValidationResult {
+  const impactMissing = blueprint.tasks.some(t => !t.impact || t.impact.length === 0);
+
+  return {
+    ok: !impactMissing,
+    article: "P6",
+    message: impactMissing
+      ? "Falta información de impacto en una o más tareas."
+      : "Todas las tareas incluyen evaluación de impacto."
+  };
+}
+
+// --- P7: Transparencia ---
+function validateTransparency(blueprint: CcsBlueprint): ValidationResult {
+  const missingJustification = blueprint.tasks.some(t => !t.justification);
+
+  return {
+    ok: !missingJustification,
+    article: "P7",
+    message: missingJustification
+      ? "Una o más tareas carecen de justificación explícita."
+      : "Todas las tareas son transparentes y justificadas."
+  };
+}
+
+// --- P8: Responsabilidad ---
+function validateResponsibility(blueprint: CcsBlueprint): ValidationResult {
+  const missingOwner = blueprint.tasks.some(t => !t.owner);
+
+  return {
+    ok: !missingOwner,
+    article: "P8",
+    message: missingOwner
+      ? "Una o más tareas carecen de responsable asignado."
+      : "Todas las tareas tienen responsable asignado."
+  };
+}
+
+// --- Export principal ---
+export function validateBlueprint(
+  blueprint: CcsBlueprint,
+  context: CcsContext
+): ValidationResult[] {
+  return [
+    validatePurpose(blueprint),
+    validateCoherence(blueprint),
+    validateNoCycles(blueprint),
+    validateLegality(blueprint),
+    validateRisk(blueprint),
+    validateImpact(blueprint),
+    validateTransparency(blueprint),
+    validateResponsibility(blueprint)
+  ];
 }
