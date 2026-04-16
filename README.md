@@ -1,154 +1,99 @@
-ORCHESTIXX ORE v0.1
-(versión lista para pegar en GitHub)
+ORCHESTIXX — ORE v0.1
+Motor Constitucional para Agentes Cognitivos  
+Separación de poderes. Gobernanza fractal. Prudencia computacional.
 
-🏛️ ORCHESTIXX — ORE v0.1
-Motor Constitucional para Agentes Cognitivos
+🌍 1. Filosofía y Origen
+Los agentes actuales funcionan como cajas negras:
 
-ORE (Operational Reasoning Engine) es el motor base de ORCHESTIXX:
-un sistema que ejecuta ciclos cognitivos gobernados por una constitución explícita, con auditoría, prudencia computacional, memoria estructurada y ramas fractales del pensamiento.
+no explican por qué deciden
 
-Este repositorio contiene la versión 0.1, una implementación mínima pero completamente funcional del motor.
+no tienen principios explícitos
 
-📌 Visión General
-ORE v0.1 demuestra que un agente cognitivo puede:
+no tienen auditoría
 
-ejecutar ciclos razonados
+no tienen memoria estructurada
 
-bajo una constitución explícita
+no tienen separación de poderes
 
-con auditoría continua
+no tienen gobernanza
 
-con prudencia computacional
+ORCHESTIXX nace para resolver esto.
 
-con memoria trazable
+ORE (Operational Reasoning Engine) es el motor que demuestra que un agente puede:
 
-con separación de poderes
+razonar bajo una constitución
 
-con ramas fractales del pensamiento
+auditarse a sí mismo
 
-Es un motor constitucional, no un agente final.
-Es la base sobre la que se construyen agentes gobernados por reglas claras, auditables y reproducibles.
+registrar su historia
 
-🧩 Arquitectura del Sistema
-ORE está dividido en órganos, inspirados en una separación de poderes:
+detectar conflictos
 
-1. Runtime
-Define el estado cognitivo del ciclo:
+actuar con prudencia
 
-ContextSnapshot
+dividir su pensamiento en ramas fractales
 
-State
+justificar cada decisión
 
-ActionRequest
+Es un motor inspirado en:
 
-2. Scheduler
-Orquesta el ciclo:
+constitucionalismo
 
-asigna presupuesto
+biología
 
-ejecuta ramas
+sistemas distribuidos
 
-controla forks
+gobernanza democrática
 
-3. Constitución (OCAP)
-Artículos I–VIII + núcleo OCAP:
+arquitecturas cognitivas
 
-principios legales
+ORE v0.1 es la primera piedra.
 
-transparencia
+🧩 2. Arquitectura General
+La arquitectura de ORE se basa en órganos, igual que un sistema político o biológico.
 
-prudencia
-
-coherencia
-
-gobernanza fractal
-
-4. Auditor
-Supervisa el flujo:
-
-inspección de snapshots
-
-kill switch
-
-validación de reglas
-
-5. Prudencia
-Consejo de prudencia:
-
-detecta conflictos
-
-resuelve tensiones
-
-6. Legislativo
-Traduce constitución → políticas:
-
-PolicyEngine
-
-MergeAgent
-
-7. Memoria
-Registra y conserva:
-
-timeline
-
-postmortem
-
-almacenamiento
-
-8. Pruebas y Ejemplos
-test mínimo de arranque
-
-ejemplo de ejecución manual
-
-🧬 Flujo Cognitivo Básico
-Se crea un ContextSnapshot
-
-El Scheduler ejecuta un ciclo
-
-El Auditor inspecciona
-
-El OCAPCore valida artículos
-
-El PrudenceEngine evalúa conflictos
-
-El PolicyEngine aplica políticas
-
-El MergeAgent fusiona decisiones
-
-La Memoria registra eventos
-
-Se genera un Postmortem
-
-Este flujo es modular, extensible y fractal.
-
-🚀 Cómo ejecutar el ejemplo
 Código
-python ejemplos/ejemplo_arranque.py
-Esto ejecuta un ciclo básico del Scheduler con un ContextSnapshot mínimo.
+                ┌───────────────────────┐
+                │       Scheduler        │
+                │  (orquestador fractal) │
+                └──────────┬────────────┘
+                           │
+        ┌──────────────────┴──────────────────┐
+        │                                     │
+ ┌──────────────┐                     ┌────────────────┐
+ │    Runtime    │                     │    Auditor     │
+ │ (estado vivo) │                     │ (supervisión)  │
+ └──────┬────────┘                     └──────┬─────────┘
+        │                                     │
+ ┌──────┴────────┐                     ┌──────┴─────────┐
+ │ Constitución   │                     │   Prudencia     │
+ │   (OCAP)       │                     │ (conflictos)    │
+ └──────┬────────┘                     └──────┬─────────┘
+        │                                     │
+        └──────────────┬──────────────────────┘
+                       │
+                 ┌─────┴──────┐
+                 │   Memoria   │
+                 └─────────────┘
+Cada órgano tiene responsabilidades claras.
+No hay funciones mágicas.
+No hay cajas negras.
 
-🧪 Cómo ejecutar las pruebas
+🧬 3. Flujo Cognitivo del Ciclo
 Código
-python -m unittest pruebas/test_arranque.py
-🏗️ Estructura del Proyecto
-Código
-orchestix-ore/
-│
-├── auditor/
-├── constitución/
-│   ├── articulos/
-│   └── ocap_core.py
-├── legislativo/
-├── memoria/
-├── prudencia/
-├── runtime/
-├── planificador/
-├── ejemplos/
-├── pruebas/
-│
-├── README.md
-├── LICENSE
-└── .gitignore
-📜 Constitución (Artículos I–VIII)
+1. Runtime crea un ContextSnapshot
+2. Scheduler ejecuta un ciclo
+3. Auditor inspecciona el estado
+4. OCAP valida los artículos constitucionales
+5. PrudenceEngine evalúa tensiones
+6. PolicyEngine aplica políticas
+7. MergeAgent fusiona decisiones
+8. Memoria registra eventos
+9. Postmortem genera informe
+Este flujo es fractal:
+cada rama puede generar subramas, todas gobernadas por la constitución.
+
+📜 4. Constitución (Artículos I–VIII)
 Los artículos definen los principios fundamentales:
 
 Legalidad
@@ -169,40 +114,82 @@ Gobernanza Fractal
 
 El núcleo OCAP los carga, ordena y valida.
 
-🛠️ Roadmap
-v0.2 — Lógica real
-Activación real de artículos
+🛠️ 5. Guía de Extensión
+ORE está diseñado para crecer como un sistema constitucional real.
 
-Conflictos constitucionales
+🟦 Añadir un nuevo artículo constitucional
+Crear articulo_IX.py
 
-Jurisprudencia local
+Añadir clase con id, texto y aplica()
 
-Economía cognitiva real
+Importarlo en ocap_core.py
 
-Forks fractales funcionales
+Añadirlo a la lista de artículos
 
-v0.3 — Integración con agentes reales
-Conexión con modelos externos
+🟦 Añadir un nuevo módulo
+Crear carpeta
 
-Auditoría en tiempo real
+Añadir __init__.py
 
-Gobernanza dinámica
+Añadir clases mínimas
 
-v1.0 — ORCHESTIXX completo
-motor constitucional
+Integrarlo en el Scheduler o Auditor
 
-interfaz CLI
+🟦 Integrar un agente real (Claude, GPT, etc.)
+Crear un wrapper que genere un ContextSnapshot
 
-simulaciones fractales
+Pasarlo por ORE
 
-visualización del ciclo
+Aplicar políticas
 
-gobernanza multi-agente
+Registrar memoria
 
-👤 Autor
+Ejecutar acción
+
+🟦 Añadir forks fractales reales
+Implementar ForkManager
+
+Crear nuevas ramas con nuevos snapshots
+
+Fusionar con MergeAgent
+
+🚀 6. Cómo ejecutar el ejemplo
+Código
+python ejemplos/ejemplo_arranque.py
+🧪 7. Cómo ejecutar las pruebas
+Código
+python -m unittest pruebas/test_arranque.py
+🏗️ 8. Estructura del Proyecto
+Código
+orchestix-ore/
+│
+├── auditor/
+├── constitución/
+│   ├── articulos/
+│   └── ocap_core.py
+├── legislativo/
+├── memoria/
+├── prudencia/
+├── runtime/
+├── planificador/
+├── ejemplos/
+├── pruebas/
+│
+├── README.md
+├── LICENSE
+└── .gitignore
+🧭 9. Roadmap Visual
+Código
+v0.1  ──✔ Motor mínimo
+v0.2  ──→ Artículos activos + conflictos reales
+v0.3  ──→ Integración con agentes reales
+v0.4  ──→ Forks fractales funcionales
+v0.5  ──→ Jurisprudencia dinámica
+v1.0  ──→ ORCHESTIXX completo
+👤 10. Autor
 Sergio de Lucas González (SDL)  
 Fundador de SalmorejoLabs
 Arquitecto de ORCHESTIXX
 
-📄 Licencia
-Este proyecto está bajo licencia Apache 2.0.
+📄 11. Licencia
+Apache 2.0
